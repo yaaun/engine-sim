@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Raphael.js animation test</title>
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.structure.min.css" />
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.theme.min.css" />
+  </head>
+  <body>
+    <div id="canvas" style="display: inline-block; width: 600px; height: 800px; outline: 1px solid black;"></div>
+    
+    <hr />
+    
+    <fieldset>
+      <button type="button" onclick="startAnimation()">Start</button>
+      <button type="button" onclick="stopAnimation()">Stop</button>
+      <button type="button" onclick="pauseAnimation()">Pause</button>
+      <button type="button" onclick="resumeAnimation()">Resume</button>
+      <div id="slider"></div>
+      <input type="number" disabled="disabled" id="period-output" />
+    </fieldset>
+    
+    <script src="jquery-min.js"></script>
+    <script src="jquery-ui/jquery-ui.min.js"></script>
+    <script src="raphael-min.js"></script>
+    <script src="animator.js"></script>
+    <script src="constants.js"></script>
+    <script src="engine_parts.js"></script>
+    <script src="engine_assembly.js"></script>
+    <script src="event_handlers.js"></script>
+    <script src="ui_scripts.js"></script>
+    <script>//<![CDATA[
+//]]></script>
+  </body>
+</html>

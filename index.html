@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>Raphael.js animation test</title>
     <link rel="stylesheet" href="jquery-ui/jquery-ui.min.css" />
     <link rel="stylesheet" href="jquery-ui/jquery-ui.structure.min.css" />
     <link rel="stylesheet" href="jquery-ui/jquery-ui.theme.min.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="canvas" style="display: inline-block; width: 600px; height: 800px; outline: 1px solid black;"></div>
     
     <hr />
+    <select id="control-select"></select>
     
-    <fieldset>
+    <fieldset id="animation-control">
+      <legend>Animation</legend>
       <button type="button" onclick="startAnimation()">Start</button>
       <button type="button" onclick="stopAnimation()">Stop</button>
       <button type="button" onclick="pauseAnimation()">Pause</button>
       <button type="button" onclick="resumeAnimation()">Resume</button>
       <div id="slider"></div>
       <input type="number" disabled="disabled" id="period-output" />
+    </fieldset>
+    
+    <fieldset id="debug-control">
+      <legend>Debug controls</legend>
+      <table class="control-container">
+        <tbody>
+          <tr>
+            <td><div id="angle" class="slider"></div></td>
+            <td><input type="number" id="angle-output" size="5" onchange="setAngle()" />π</td>
+          </tr>
+        </tbody>
+      </table>
     </fieldset>
     
     <script src="jquery-min.js"></script>

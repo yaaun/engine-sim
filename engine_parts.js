@@ -1,6 +1,9 @@
 /*  This object is designed to work with Animator. It times the movement of the
     other parts of the engine (like its real analogue).
 */
+"use strict";
+
+
 function TimingBelt(period, startAngle) {
     this.callbacks = [];
     this.period = period;
@@ -38,6 +41,13 @@ TimingBelt.prototype.resume = function () {
     this.running = true;
 };
 
+TimingBelt.prototype.setAngle = function (a) {
+    var i;
+    for (i = 0; i < this.callbacks.length; i++) {
+        this.callbacks[i](a + this.startAngle);
+    }
+};
+
 TimingBelt.prototype.setPeriod = function (p) {
     if (p) {
         var oldAlpha = this.ownTime / this.period * Math.PI * 2 + this.startAngle;
@@ -71,4 +81,24 @@ PistonMovement.prototype.update = function (alpha) {
     var shift = this.travel * Math.sin(alpha) / 2;
     
     this.object.attr("y", y + shift);
+};
+
+
+function PushrodMovement(pushrodObject, centerX, topY, travel) {
+    
+}
+
+/** Note: this object assumes that the `crankObject` is already in its correct
+    place.  */
+function CrankMovement(crankObject, centerX, centerY) {
+    this.object = crankObject;
+    this.hubX = centerX;
+    this.hubY = centerY;
+    
+    this.ownAngle = 0;
+}
+
+CrankMovement.prototype.update = function (alpha) {
+    this.object.rotate(alpha);
+    this.ownAngle = alpha;
 };

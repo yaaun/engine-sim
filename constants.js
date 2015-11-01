@@ -12,3 +12,11 @@ var PISTON_WIDTH = SCALE *  200,
 
 var WALL_WIDTH = SCALE *    20,
     HEAD_DISTANCE =         PISTON_TRAVEL / 6;
+
+var SPECS = {
+    flywheelInertia: 10,    //  [kg * m^2]
+    pistonArea: 150,        //  [cm^2]
+    cylinderMinVolume: 120, //  [cm^3]
+    cylinderMaxVolume: 1000//  [cm^3]
+    
+};

@@ -1,0 +1,11 @@
+.control-container {
+    width: 100%;
+}
+
+.control-container td:first-child {
+    /*width: 100%;*/
+}
+
+.control-container td:last-child {
+    width: 200px;
+}

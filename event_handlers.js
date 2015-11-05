@@ -24,7 +24,7 @@ function changeSpeedSlider(evt, ui) {
 function setAngle(evt, ui) {
     var a;
     
-    if (!evt) {
+    if (evt == null) {
         a = this.value / 180;
     } else if (typeof evt === "number") {
         a = evt / 180;

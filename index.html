@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="jquery-ui/jquery-ui.theme.min.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body onload="loaded()">
     <div id="canvas" style="display: inline-block; width: 600px; height: 800px; outline: 1px solid black;"></div>
     
     <hr />
     <select id="control-select"></select>
     
-    <fieldset id="animation-control">
+    <fieldset id="animation-control" class="control-set">
       <legend>Animation</legend>
       <button type="button" onclick="startAnimation()">Start</button>
       <button type="button" onclick="stopAnimation()">Stop</button>
@@ -24,13 +24,13 @@
       <input type="number" disabled="disabled" id="period-output" />
     </fieldset>
     
-    <fieldset id="debug-control">
+    <fieldset id="debug-control" class="control-set">
       <legend>Debug controls</legend>
       <table class="control-container">
         <tbody>
           <tr>
             <td><div id="angle" class="slider"></div></td>
-            <td><input type="number" id="angle-output" size="5" onchange="setAngle()" />π</td>
+            <td><input type="number" id="angle-output" size="5" onchange="/*setAngle()*/" />π</td>
           </tr>
         </tbody>
       </table>

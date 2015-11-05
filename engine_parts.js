@@ -71,9 +71,6 @@ function PistonMovement(pistonObject, centerX, topY, travel) {
     this.travel = travel;
     
     this.object = pistonObject;
-    
-    var x = this.centerX - this.width / 2;
-    this.object.attr("x", x);
 }
 
 PistonMovement.prototype.update = function (alpha) {
@@ -84,9 +81,29 @@ PistonMovement.prototype.update = function (alpha) {
 };
 
 
-function PushrodMovement(pushrodObject, centerX, topY, travel) {
+function PushrodMovement(pushrodObject, centerX, topY, travel, length, crankThrow) {
+    var bbox = pushrodObject.getBBox();
     
+    this.centerX = centerX;
+    this.topY = topY;
+    this.travel = travel;
+    this.object = pushrodObject;
+    
+    this.ownAngle = 3 * Math.PI / 2;
+    this.maxAngle = Math.atan(length / crankThrow);
 }
+
+PushrodMovement.prototype.update = function (alpha) {
+    var y = this.topY + this.travel / 2;
+    var shift = this.travel * Math.sin(alpha) / 2;
+    var angle = Math.sin(alpha) * this.maxAngle;
+    
+    // console.log(y + shift);
+    
+    this.object.attr("y", y + shift);
+    this.object.rotate((angle - this.ownAngle) / Math.PI * 180, this.centerX, y + shift);
+    this.ownAngle = angle;
+};
 
 /** Note: this object assumes that the `crankObject` is already in its correct
     place.  */
@@ -95,10 +112,10 @@ function CrankMovement(crankObject, centerX, centerY) {
     this.hubX = centerX;
     this.hubY = centerY;
     
-    this.ownAngle = 0;
+    this.ownAngle = 3 * Math.PI / 2;
 }
 
 CrankMovement.prototype.update = function (alpha) {
-    this.object.rotate(alpha);
+    this.object.rotate((alpha - this.ownAngle) / Math.PI * 180, this.hubX, this.hubY);
     this.ownAngle = alpha;
 };

@@ -74,35 +74,40 @@ function PistonMovement(pistonObject, centerX, topY, travel) {
 }
 
 PistonMovement.prototype.update = function (alpha) {
-    var y = this.topY + this.travel / 2;
-    var shift = this.travel * Math.sin(alpha) / 2;
+    var shift = this.travel * Math.sin(alpha) / 2 + this.travel / 2;
     
-    this.object.attr("y", y + shift);
+    this.object.transform("T0 " + shift);
 };
 
 
-function PushrodMovement(pushrodObject, centerX, topY, travel, length, crankThrow) {
+function PushrodMovement(pushrodObject, centerX, topY, travel, length) {
     var bbox = pushrodObject.getBBox();
     
     this.centerX = centerX;
     this.topY = topY;
     this.travel = travel;
+    this.length = length;
     this.object = pushrodObject;
     
-    this.ownAngle = 3 * Math.PI / 2;
-    this.maxAngle = Math.atan(length / crankThrow);
+    console.log(bbox);
+    
+    this.maxAngle = Math.atan(this.travel / this.length / 2);
 }
 
 PushrodMovement.prototype.update = function (alpha) {
-    var y = this.topY + this.travel / 2;
-    var shift = this.travel * Math.sin(alpha) / 2;
-    var angle = Math.sin(alpha) * this.maxAngle;
+    var shift = this.travel * Math.sin(alpha) / 2 + this.travel / 2;
+    var angle = Math.sin(alpha - Math.PI / 2) * this.maxAngle * 180 / Math.PI;
     
-    // console.log(y + shift);
+    console.log("alpha = %f", alpha);
+    // console.log(shift);
     
-    this.object.attr("y", y + shift);
-    this.object.rotate((angle - this.ownAngle) / Math.PI * 180, this.centerX, y + shift);
+    this.object.transform(
+        "T" + 0 + " " + shift +
+        "r" + [angle, this.centerX, this.topY].join(" ")
+    );
+    //this.object.rotate((angle - this.ownAngle) / Math.PI * 180);
     this.ownAngle = angle;
+    this.ownAlpha = alpha;
 };
 
 /** Note: this object assumes that the `crankObject` is already in its correct
@@ -112,10 +117,9 @@ function CrankMovement(crankObject, centerX, centerY) {
     this.hubX = centerX;
     this.hubY = centerY;
     
-    this.ownAngle = 3 * Math.PI / 2;
+    this.ownAngle = Math.PI / 2;
 }
 
 CrankMovement.prototype.update = function (alpha) {
-    this.object.rotate((alpha - this.ownAngle) / Math.PI * 180, this.hubX, this.hubY);
-    this.ownAngle = alpha;
+    this.object.transform("R" + [(alpha + this.ownAngle) / Math.PI * 180, this.hubX, this.hubY].join(" "));
 };

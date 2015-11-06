@@ -32,6 +32,7 @@ function setAngle(evt, ui) {
         a = ui.value / 180;
     }
     
+    // console.log("a = %f, a * PI = %f", a , a * Math.PI);
     timing.setAngle(a * Math.PI);
     $("#angle-output").val(a.toFixed(2));
 }

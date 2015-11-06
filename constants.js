@@ -14,6 +14,13 @@ var WALL_WIDTH = SCALE *    40,
     HEAD_DISTANCE =         PISTON_TRAVEL / 6,
     RIB_SIZE =              WALL_WIDTH / 2;
 
+var HUB_R = SCALE *         50,
+    HUB_r = SCALE *         30;
+
+var PUSHROD_D =             HUB_r * 2,
+    PUSHROD_d = SCALE *     40,
+    PUSHROD_LENGTH =        PISTON_TRAVEL * 2;
+
 var WALL_COLOUR =           "darkgrey",
     PISTON_COLOUR =         "grey",
     PUSHROD_COLOUR =        "#444";

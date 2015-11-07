@@ -58,11 +58,20 @@ function hideControls(evt) {
 }
 
 
-function changeScale(evt) {
-    var scale = parseFloat($("#scale-output").val());
-    SCALE = scale;
+function changeScale(evt, ui) {
+    var scale;
+    var width, height;
     
-    $("#canvas").css("width", (WIDTH * scale) + "px");
-    $("#canvas").css("height", (HEIGHT * scale) + "px");
-    assemble();
+    if (evt) {
+        scale = ui.size.width / WIDTH;
+        ui.size.height = scale * HEIGHT;
+    } else {
+        scale = parseFloat($("#scale-output").val());
+    }
+    
+    width = WIDTH * scale,
+    height = HEIGHT * scale;
+        
+    paper.setSize(width, height);
+    paper.setViewBox(0, 0, WIDTH, HEIGHT);
 }

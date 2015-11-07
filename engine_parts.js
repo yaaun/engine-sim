@@ -152,6 +152,10 @@ function CombustionMovement(combustion) {
     this.object = combustion;
 }
 
+CombustionMovement.prototype.update = function (temp, burnt) {
+    
+};
+
 
 function EngineModel(specs) {
     this.momentOfInertia = SPECS.flywheelInertia;

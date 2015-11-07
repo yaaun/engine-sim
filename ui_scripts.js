@@ -23,4 +23,8 @@ function loaded() {
             console.log(element);
         }
     });
+    
+    $("#canvas").resizable({
+        resize: changeScale
+    });
 }

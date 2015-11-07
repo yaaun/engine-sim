@@ -1,11 +1,11 @@
 /*  This file puts the different parts of our engine together.  */
 "use strict";
 
-var animator, timing;
+var animator, timing, paper;
 
 
 function assemble() {
-    var paper = new Raphael("canvas");
+    paper = new Raphael("canvas");
     var i, ribs;
     var rib;
     
@@ -35,67 +35,32 @@ function assemble() {
     //  The cylidner part.
     var cylinderPart = paper.set();
     cylinderPart.push(
-        paper.rect(inletX, inletY, cylinderW + inletW + exhaustW + 2 * WALL_WIDTH, WALL_WIDTH)
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke", "black")
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
-        paper.rect(cylinderX, cylinderY + WALL_WIDTH + HEAD_DISTANCE, WALL_WIDTH, cylinderH - WALL_WIDTH - HEAD_DISTANCE)
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke", "black")
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
-        paper.rect(cylinderX + cylinderW - WALL_WIDTH, cylinderY + WALL_WIDTH + HEAD_DISTANCE, WALL_WIDTH, cylinderH - WALL_WIDTH - HEAD_DISTANCE)
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke", "black")
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
-        paper.rect(inletX, inletY, WALL_WIDTH, inletH)
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
-        paper.rect(exhaustX + exhaustW, exhaustY, WALL_WIDTH, exhaustH)
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
+        paper.rect(inletX, inletY, cylinderW + inletW + exhaustW + 2 * WALL_WIDTH, WALL_WIDTH),
+        paper.rect(cylinderX, cylinderY + WALL_WIDTH + HEAD_DISTANCE, WALL_WIDTH, cylinderH - WALL_WIDTH - HEAD_DISTANCE),
+        paper.rect(cylinderX + cylinderW - WALL_WIDTH, cylinderY + WALL_WIDTH + HEAD_DISTANCE, WALL_WIDTH, cylinderH - WALL_WIDTH - HEAD_DISTANCE),
+        paper.rect(inletX, inletY, WALL_WIDTH, inletH),
+        paper.rect(exhaustX + exhaustW, exhaustY, WALL_WIDTH, exhaustH),
         paper.path(
             "M " + [inletX + WALL_WIDTH, inletY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
             "l " + [inletW / 6, 0].join(" ") +
             "l " + [inletW / 4 - inletW / 6, inletW / 6].join(" ") +
             "l " + [-inletW / 4, 0].join(" ") +
             "Z"
-        )
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
+        ),
         paper.path(
             "M " + [inletX + inletW + WALL_WIDTH, inletY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
             "l " + [-inletW / 6, 0].join(" ") +
             "l " + [inletW / 6 - inletW / 4, inletW / 6].join(" ") +
             "l " + [inletW / 4, 0].join(" ") +
             "Z"
-        )
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
+        ),
         paper.path(
             "M " + [exhaustX, exhaustY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
             "l " + [exhaustW / 6, 0].join(" ") +
             "l " + [exhaustW / 4 - exhaustW / 6, exhaustW / 6].join(" ") +
             "l " + [-exhaustW / 4, 0].join(" ") +
             "Z"
-        )
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke-width", 0)
-    );
-    cylinderPart.push(
+        ),
         paper.path(
             "M " + [exhaustX + exhaustW, exhaustY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
             "l " + [-exhaustW / 6, 0].join(" ") +
@@ -103,9 +68,9 @@ function assemble() {
             "l " + [exhaustW / 4, 0].join(" ") +
             "Z"
         )
-        .attr("fill", WALL_COLOUR)
-        .attr("stroke-width", 0)
-    );
+    )
+    .attr("fill", WALL_COLOUR)
+    .attr("stroke-width", 0);
     
     var combustionPart = paper.set();
     combustionPart.push(
@@ -187,6 +152,34 @@ function assemble() {
         .attr("fill", PUSHROD_COLOUR)
     );
     pushrodPart.insertBefore(pistonPart);
+    
+    var sparkPlugPart = paper.set();
+    sparkPlugPart.push(
+        paper.rect(
+            (WIDTH - PLUG_WIDTH) / 2,
+            PLUG_Y,
+            PLUG_WIDTH,
+            PLUG_HEIGHT,
+            PLUG_CORNER_R
+        )
+        .attr("fill", PLUG_COLOUR),
+        paper.path(
+            "M " + [WIDTH / 2 - PLUG_PRONG_WIDTH, PLUG_Y + PLUG_HEIGHT].join(" ") +
+            "l " + [0, PLUG_PRONG_HEIGHT].join(" ") +
+            "l " + [PLUG_PRONG_WIDTH, 0].join(" ") +
+            "l " + [-PLUG_PRONG_WIDTH, 0].join(" ") +
+            "Z"
+        ),
+        paper.path(
+            "M " + [WIDTH / 2 + PLUG_PRONG_WIDTH, PLUG_Y + PLUG_HEIGHT].join(" ") +
+            "l " + [0, PLUG_PRONG_HEIGHT / 2].join(" ") +
+            "l " + [-PLUG_PRONG_WIDTH, 0].join(" ") +
+            "l " + [+PLUG_PRONG_WIDTH, 0].join(" ") +
+            "Z"
+        )/*,
+        paper.path(
+            "M " [WIDTH / 2, PLUG_Y + PLUG_HEIGHT / 2].join(" "))*/
+    );
 
 
     var pistonMovement = new PistonMovement(pistonPart, WIDTH / 2, PISTON_Y, PISTON_TRAVEL);

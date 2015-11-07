@@ -36,3 +36,33 @@ function setAngle(evt, ui) {
     timing.setAngle(a * Math.PI);
     $("#angle-output").val(a.toFixed(2));
 }
+
+
+function hideControls(evt) {
+    var val;
+    
+    if (typeof evt === "string") {
+        val = evt;
+    } else {
+        val = evt.target.value;
+    }
+    
+    if (val === "all") {
+        $("#control-container fieldset").show();
+    } else if (val === "none") {
+        $("#control-container fieldset").hide();
+    } else {
+        $("#control-container fieldset").hide();
+        $(val).show();
+    }
+}
+
+
+function changeScale(evt) {
+    var scale = parseFloat($("#scale-output").val());
+    SCALE = scale;
+    
+    $("#canvas").css("width", (WIDTH * scale) + "px");
+    $("#canvas").css("height", (HEIGHT * scale) + "px");
+    assemble();
+}

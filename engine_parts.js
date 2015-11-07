@@ -153,6 +153,20 @@ function CombustionMovement(combustion) {
 }
 
 
-function EngineModel() {
+function EngineModel(specs) {
+    this.momentOfInertia = SPECS.flywheelInertia;
+    this.timeMultiplier = 1;
     
+    //  State variables.
+    this.angularVelocity = 0;
 }
+
+EngineModel.prototype.getAngularMomentum = function () {
+    return this.momentOfInertia * this.angularVelocity;
+};
+
+EngineModel.prototype.update = function (t, dt) {
+    dt *= this.timeMultiplier;
+    
+    
+};

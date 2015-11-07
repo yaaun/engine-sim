@@ -21,14 +21,22 @@ var PUSHROD_D =             HUB_r * 2,
     PUSHROD_d = SCALE *     40,
     PUSHROD_LENGTH =        PISTON_TRAVEL * 2;
 
+var PLUG_WIDTH = SCALE *    40,
+    PLUG_HEIGHT = SCALE *   80,
+    PLUG_Y = SCALE *        50,
+    PLUG_CORNER_R = SCALE * 5,
+    PLUG_PRONG_WIDTH = SCALE * 15,
+    PLUG_PRONG_HEIGHT = SCALE * 10;
+
 var WALL_COLOUR =           "darkgrey",
     PISTON_COLOUR =         "grey",
-    PUSHROD_COLOUR =        "#444";
+    PUSHROD_COLOUR =        "#444",
+    PLUG_COLOUR =           "#eee";
 
 var SPECS = {
-    flywheelInertia: 10,    //  [kg * m^2]
-    pistonArea: 150,        //  [cm^2]
-    cylinderMinVolume: 120, //  [cm^3]
-    cylinderMaxVolume: 1000//  [cm^3]
+    flywheelInertia: 0.01,          //  [kg * m^2]
+    pistonArea: 150,                //  [cm^2]
+    cylinderMinVolume: 120,         //  [cm^3]
+    cylinderMaxVolume: 1000         //  [cm^3]
     
 };

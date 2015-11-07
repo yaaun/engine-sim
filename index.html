@@ -9,32 +9,47 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body onload="loaded()">
-    <div id="canvas" style="display: inline-block; width: 600px; height: 800px; outline: 1px solid black;"></div>
+    <div id="view-container">
+      <div id="canvas" style="display: inline-block; width: 600px; height: 800px; outline: 1px solid black;"></div>
+      <div id="display-container">
+      
+      </div>
+    </div>
     
     <hr />
-    <select id="control-select"></select>
     
-    <fieldset id="animation-control" class="control-set">
-      <legend>Animation</legend>
-      <button type="button" onclick="startAnimation()">Start</button>
-      <button type="button" onclick="stopAnimation()">Stop</button>
-      <button type="button" onclick="pauseAnimation()">Pause</button>
-      <button type="button" onclick="resumeAnimation()">Resume</button>
-      <div id="slider"></div>
-      <input type="number" disabled="disabled" id="period-output" />
-    </fieldset>
-    
-    <fieldset id="debug-control" class="control-set">
-      <legend>Debug controls</legend>
-      <table class="control-container">
-        <tbody>
-          <tr>
-            <td><div id="angle" class="slider"></div></td>
-            <td><input type="number" id="angle-output" size="5" onchange="/*setAngle()*/" />π</td>
-          </tr>
-        </tbody>
-      </table>
-    </fieldset>
+    <div id="control-container">
+      <select id="control-select" onchange="hideControls(event)">
+        <option value="all">Show all</option>
+        <option value="none">Show none</option>
+      </select>
+      
+      <fieldset id="animation-control" class="control-set">
+        <legend>Animation</legend>
+        <button type="button" onclick="startAnimation()">Start</button>
+        <button type="button" onclick="stopAnimation()">Stop</button>
+        <button type="button" onclick="pauseAnimation()">Pause</button>
+        <button type="button" onclick="resumeAnimation()">Resume</button>
+        <div id="slider"></div>
+        <input type="number" disabled="disabled" id="period-output" />
+        <br />
+        <label for="scale-output">Scale:</label>
+        <input type="number" id="scale-output" value="1" />
+        <button type="button" onclick="changeScale()">Change</button>
+      </fieldset>
+      
+      <fieldset id="debug-control" class="control-set">
+        <legend>Debug controls</legend>
+        <table class="control-container">
+          <tbody>
+            <tr>
+              <td><div id="angle" class="slider"></div></td>
+              <td><input type="number" id="angle-output" size="5" onchange="/*setAngle()*/" />π</td>
+            </tr>
+          </tbody>
+        </table>
+      </fieldset>
+    </div>
     
     <script src="jquery-min.js"></script>
     <script src="jquery-ui/jquery-ui.min.js"></script>

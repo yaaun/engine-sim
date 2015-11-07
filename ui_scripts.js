@@ -11,13 +11,16 @@ function loaded() {
     
     $("#angle").slider({min: 0, max: 720, value: 0, create: function () {setAngle(0);}, slide: setAngle});
     
-    $(".control-set").each(function (index, frameset) {
+    $(".control-set").each(function (index, element) {
         var elem = $("<option>");
         var matches;
         
-        elem.val("#" + $(frameset).attr("id"));
-        elem.text($(frameset).attr("id").match(/.+(?:-.*)/)[0]);
-        $("#control-select").append(elem);
-        console.log(frameset);
+        if ($(element).is("fieldset")) {
+            console.log("I'm a fieldset!");
+            elem.val("#" + $(element).attr("id"));
+            elem.text($(element).attr("id").match(/.+(?:-.*)/)[0]);
+            $("#control-select").append(elem);
+            console.log(element);
+        }
     });
 }

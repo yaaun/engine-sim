@@ -11,7 +11,7 @@ var PISTON_WIDTH = SCALE *  200,
     PISTON_Y = SCALE *      160;
 
 var WALL_WIDTH = SCALE *    40,
-    HEAD_DISTANCE =         PISTON_TRAVEL / 6,
+    HEAD_DISTANCE =         PISTON_TRAVEL / 4;
     RIB_SIZE =              WALL_WIDTH / 2;
 
 var HUB_R = SCALE *         50,

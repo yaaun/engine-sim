@@ -84,6 +84,37 @@ function assemble() {
         .attr("fill", WALL_COLOUR)
         .attr("stroke-width", 0)
     );
+    cylinderPart.push(
+        paper.path(
+            "M " + [exhaustX, exhaustY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
+            "l " + [exhaustW / 6, 0].join(" ") +
+            "l " + [exhaustW / 4 - exhaustW / 6, exhaustW / 6].join(" ") +
+            "l " + [-exhaustW / 4, 0].join(" ") +
+            "Z"
+        )
+        .attr("fill", WALL_COLOUR)
+        .attr("stroke-width", 0)
+    );
+    cylinderPart.push(
+        paper.path(
+            "M " + [exhaustX + exhaustW, exhaustY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
+            "l " + [-exhaustW / 6, 0].join(" ") +
+            "l " + [exhaustW / 6 - exhaustW / 4, exhaustW / 6].join(" ") +
+            "l " + [exhaustW / 4, 0].join(" ") +
+            "Z"
+        )
+        .attr("fill", WALL_COLOUR)
+        .attr("stroke-width", 0)
+    );
+    
+    var combustionPart = paper.set();
+    combustionPart.push(
+        paper.rect(inletX + WALL_WIDTH, inletY + WALL_WIDTH, inletW + cylinderW + exhaustW, HEAD_DISTANCE),
+        paper.rect(cylinderX + WALL_WIDTH, cylinderY + WALL_WIDTH, cylinderW - 2 * WALL_WIDTH, cylinderH - HEAD_DISTANCE)
+    )
+    .attr("fill", "cyan")
+    .attr("stroke-width", 0)
+    .insertBefore(cylinderPart);
     
     var inletValvePart = paper.set();
     inletValvePart.push(
@@ -96,6 +127,21 @@ function assemble() {
             "q " + [0, -PUSHROD_LENGTH, -inletW / 6, -PUSHROD_LENGTH].join(" ") +
             "Z"
         )
+        .attr("fill", PUSHROD_COLOUR)
+    );
+    
+    var exhaustValvePart = paper.set();
+    exhaustValvePart.push(
+        paper.path(
+            "M " + [exhaustX + exhaustW / 6, exhaustY + WALL_WIDTH + HEAD_DISTANCE].join(" ") +
+            "l " + [exhaustW / 2 + 2 * (exhaustW / 4 - exhaustW / 6), 0].join(" ") +
+            "l " + [exhaustW / 6 - exhaustW / 4, exhaustW / 6].join(" ") +
+            "q " + [-exhaustW / 6, 0, -exhaustW / 6, PUSHROD_LENGTH].join(" ") +
+            "l " + [-exhaustW / 6, 0].join(" ") +
+            "q " + [0, -PUSHROD_LENGTH, -exhaustW / 6, -PUSHROD_LENGTH].join(" ") +
+            "Z"
+        )
+        .attr("fill", PUSHROD_COLOUR)
     );
 
     //  Populate the top of the cylider with ribs.
@@ -146,11 +192,18 @@ function assemble() {
     var pistonMovement = new PistonMovement(pistonPart, WIDTH / 2, PISTON_Y, PISTON_TRAVEL);
     var crankMovement = new CrankMovement(crankPart, hubX, hubY);   //  TODO y position!
     var pushrodMovement = new PushrodMovement(pushrodPart, WIDTH / 2, PISTON_Y + PISTON_HEIGHT / 2, PISTON_TRAVEL, 2 * PISTON_TRAVEL);
+    var inletValveMovement = new ValveMovement(inletValvePart, PISTON_TRAVEL / 8, 0, Math.PI);
+    var exhaustValveMovement = new ValveMovement(exhaustValvePart, PISTON_TRAVEL / 8, 3 * Math.PI, 4 * Math.PI);
+    var combustionMovement = new CombustionMovement(combustionPart);
 
     animator = new Animator;
     timing = new TimingBelt(500);
+    
     timing.add(pistonMovement.update.bind(pistonMovement));
     timing.add(crankMovement.update.bind(crankMovement));
     timing.add(pushrodMovement.update.bind(pushrodMovement));
+    timing.add(inletValveMovement.update.bind(inletValveMovement));
+    timing.add(exhaustValveMovement.update.bind(exhaustValveMovement));
+    
     animator.setObject(timing);
 }

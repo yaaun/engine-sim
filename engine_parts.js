@@ -10,7 +10,7 @@ function TimingBelt(period, startAngle) {
     
     this.ownTime = 0;
     this.running = true;
-    this.startAngle = startAngle || -Math.PI / 2;
+    this.startAngle = startAngle || 0;
     
     Object.seal(this);
 }
@@ -74,9 +74,8 @@ function PistonMovement(pistonObject, centerX, topY, travel) {
 }
 
 PistonMovement.prototype.update = function (alpha) {
-    var shift = this.travel * Math.sin(alpha) / 2 + this.travel / 2;
-    
-    this.object.transform("T0 " + shift);
+    var shift = this.travel * -Math.cos(alpha) / 2 + this.travel / 2;
+    this.object.transform("T 0 " + shift);
 };
 
 
@@ -95,10 +94,10 @@ function PushrodMovement(pushrodObject, centerX, topY, travel, length) {
 }
 
 PushrodMovement.prototype.update = function (alpha) {
-    var shift = this.travel * Math.sin(alpha) / 2 + this.travel / 2;
-    var angle = Math.sin(alpha - Math.PI / 2) * this.maxAngle * 180 / Math.PI;
+    var shift = this.travel * -Math.cos(alpha) / 2 + this.travel / 2;
+    var angle = -Math.sin(alpha) * this.maxAngle * 180 / Math.PI;
     
-    console.log("alpha = %f", alpha);
+    // console.log("alpha = %f", alpha);
     // console.log(shift);
     
     this.object.transform(
@@ -117,9 +116,43 @@ function CrankMovement(crankObject, centerX, centerY) {
     this.hubX = centerX;
     this.hubY = centerY;
     
-    this.ownAngle = Math.PI / 2;
+    this.ownAngle = 0;
 }
 
 CrankMovement.prototype.update = function (alpha) {
     this.object.transform("R" + [(alpha + this.ownAngle) / Math.PI * 180, this.hubX, this.hubY].join(" "));
 };
+
+
+function ValveMovement(valveObject, travel, startAngle, endAngle) {
+    this.object = valveObject;
+    this.travel = travel;
+    this.startAngle = startAngle;
+    this.endAngle = endAngle;
+
+    this.func = function (a) {
+        var r;
+        
+        if (a >= this.startAngle && a < this.endAngle) {
+            r = Math.abs(Math.sin(a) * 4);
+            r = r > 1 ? 1 : r;
+            return r;
+        } else {
+            return 0;
+        }
+    };
+}
+
+ValveMovement.prototype.update = function (alpha) {
+    this.object.transform("T 0 " + (-this.func(alpha) * this.travel));
+};
+
+
+function CombustionMovement(combustion) {
+    this.object = combustion;
+}
+
+
+function EngineModel() {
+    
+}

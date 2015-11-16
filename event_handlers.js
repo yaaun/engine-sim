@@ -21,7 +21,7 @@ function changeSpeedSlider(evt, ui) {
     $("#period-output").val(ui.value);
 }
 
-function setAngle(evt, ui) {
+function debugSetAngle(evt, ui) {
     var a;
     
     if (evt == null) {
@@ -35,6 +35,19 @@ function setAngle(evt, ui) {
     // console.log("a = %f, a * PI = %f", a , a * Math.PI);
     timing.setAngle(a * Math.PI);
     $("#angle-output").val(a.toFixed(2));
+}
+
+
+function debugSetTemperature(evt, ui) {
+    var t;
+    
+    if (typeof evt === "number") {
+        t = evt;
+    } else {
+        t = ui.value;
+    }
+    
+    combustion.setTemp(t);
 }
 
 

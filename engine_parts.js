@@ -88,7 +88,7 @@ function PushrodMovement(pushrodObject, centerX, topY, travel, length) {
     this.length = length;
     this.object = pushrodObject;
     
-    console.log(bbox);
+    // console.log(bbox);
     
     this.maxAngle = Math.atan(this.travel / this.length / 2);
 }
@@ -148,12 +148,31 @@ ValveMovement.prototype.update = function (alpha) {
 };
 
 
-function CombustionMovement(combustion) {
-    this.object = combustion;
+function CombustionMovement(stat, mob, baseHeight, travel, colourFunc) {
+    this.baseHeight = baseHeight;
+    this.travel = travel;
+    this.mobileObject = mob;
+    this.staticObject = stat;
+    this.temp = 0;
+    
+    this._getColour = colourFunc;
 }
 
-CombustionMovement.prototype.update = function (temp, burnt) {
+CombustionMovement.prototype.update = function (alpha) {
+    this.mobileObject.attr("height", this.baseHeight + this.travel * -Math.cos(alpha));
+    this.updateColour();
+};
+
+CombustionMovement.prototype.updateColour = function (T) {
+    var t = T || this.temp;
     
+    this.mobileObject.attr("fill", "rgb(" + this._getColour(t).join(",") + ")");
+    this.staticObject.attr("fill", "rgb(" + this._getColour(t).join(",") + ")");
+};
+
+CombustionMovement.prototype.setTemp = function (T) {
+    this.temp = T;
+    this.updateColour(T);
 };
 
 

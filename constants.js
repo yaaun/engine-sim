@@ -33,6 +33,9 @@ var WALL_COLOUR =           "darkgrey",
     PUSHROD_COLOUR =        "#444",
     PLUG_COLOUR =           "#eee";
 
+var HOT_COLOUR = [192, 64, 64],
+    COLD_COLOUR = [0, 255, 255];
+
 var SPECS = {
     flywheelInertia: 0.01,          //  [kg * m^2]
     pistonArea: 150,                //  [cm^2]

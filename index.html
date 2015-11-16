@@ -30,7 +30,7 @@
         <button type="button" onclick="stopAnimation()">Stop</button>
         <button type="button" onclick="pauseAnimation()">Pause</button>
         <button type="button" onclick="resumeAnimation()">Resume</button>
-        <div id="slider"></div>
+        <div id="speed-slider"></div>
         <input type="number" disabled="disabled" id="period-output" />
         <br />
         <label for="scale-output">Scale:</label>
@@ -43,8 +43,11 @@
         <table class="control-container">
           <tbody>
             <tr>
-              <td><div id="angle" class="slider"></div></td>
+              <td><div id="angle-slider"></div></td>
               <td><input type="number" id="angle-output" size="5" onchange="/*setAngle()*/" />π</td>
+            </tr>
+            <tr>
+              <td><div id="temperature-slider"></div></td>
             </tr>
           </tbody>
         </table>

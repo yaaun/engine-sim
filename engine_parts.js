@@ -151,37 +151,86 @@ ValveMovement.prototype.update = function (alpha) {
 function CombustionMovement(stat, mob, baseHeight, travel, colourFunc) {
     this.baseHeight = baseHeight;
     this.travel = travel;
-    this.mobileObject = mob;
-    this.staticObject = stat;
+    this.mobileObject = mob || null;
+    this.staticObject = stat || null;
+    
+    this.pressure = 0;
     this.temp = 0;
     
     this._getColour = colourFunc;
 }
 
 CombustionMovement.prototype.update = function (alpha) {
-    this.mobileObject.attr("height", this.baseHeight + this.travel * -Math.cos(alpha));
+    if (this.mobileObject) this.mobileObject.attr("height", this.baseHeight + this.travel * -Math.cos(alpha));
     this.updateColour();
 };
 
-CombustionMovement.prototype.updateColour = function (T) {
-    var t = T || this.temp;
+CombustionMovement.prototype.updateColour = function () {
+    var t = this.temp;
+    var p = this.pressure;
     
-    this.mobileObject.attr("fill", "rgb(" + this._getColour(t).join(",") + ")");
-    this.staticObject.attr("fill", "rgb(" + this._getColour(t).join(",") + ")");
+    //  If-checks in case any of the below is null.
+    if (this.mobileObject) this.mobileObject.attr("fill", "rgb(" + this._getColour(t, p).join(",") + ")");
+    if (this.staticObject) this.staticObject.attr("fill", "rgb(" + this._getColour(t, p).join(",") + ")");
+};
+
+CombustionMovement.prototype.setTP = function (T, P) {
+    this.temp = T;
+    this.pressure = P;
+    this.updateColour();
 };
 
 CombustionMovement.prototype.setTemp = function (T) {
     this.temp = T;
-    this.updateColour(T);
+    this.updateColour();
+};
+
+CombustionMovement.prototype.setPres = function (P) {
+    this.pressure = P;
+    this.updateColour();
 };
 
 
 function EngineModel(specs) {
-    this.momentOfInertia = SPECS.flywheelInertia;
+    //  Control variables.
     this.timeMultiplier = 1;
+    /*  The (minimum) time resolution that is used for calculations. That is, if
+        `dt` is more than this value, a loop will run multiple time steps in a
+        single invocation of `update()` to ensure that each time step is equal
+        to or less than `timeResolution`.
+    */
+    this.timeResolution = 1/600;    //  [s]
+    
+    
+    //  Parameters of the simulation.
+    this.momentOfInertia = SPECS.flywheelInertia;   //  [kg * m^2]
+    /*  Defines when the spark plug is fired, expressed as an angle. A positive
+        value means that the spark is fired after TDC, while a negative
+        value fires the spark before TDC (advanced timing).
+    */
+    this.sparkDelay = 0;    //  [rad]
     
     //  State variables.
-    this.angularVelocity = 0;
+    /*  The phase of the engine. This defines what part of the cycle is
+        currently taking place.
+          [0 ; Pi)      : intake
+          [Pi ; 2*Pi)   : compression
+          
+    */
+    this.phase = 0;             //  [rad]
+    this.angularVelocity = 0;   //  [rad / s]
+    /*  The amount of external torque that is applied to the engine. If this
+        value has the same sign as `angularVelocity`, then the torque is in the
+        same direction as the rotation of the engine (e.g. an engine starter).
+        If it is opposite, then the torque works against the rotation of the
+        engine (e.g. a mechanical load on the crankshaft).
+    */
+    this.externalTorque = 0;     //  
+    this.pressure = 100000;     //  [Pa]
+    this.temperature = 300;     //  [K]
+    this.plugFired = false;
+    
+    this.throttle = 0.2;
 }
 
 EngineModel.prototype.getAngularMomentum = function () {
@@ -191,5 +240,31 @@ EngineModel.prototype.getAngularMomentum = function () {
 EngineModel.prototype.update = function (t, dt) {
     dt *= this.timeMultiplier;
     
+    var steps;
+    var i;
     
+    if (dt > this.timeResolution) {
+        steps = Math.ceil(dt / this.timeResolution);
+        dt /= steps;
+    } else {
+        steps = 1;
+    }
+    
+    for (i = 0; i < steps; i++) {
+        this.phase += this.angularVelocity * dt;
+        
+        if (this.phase < Math.PI) {
+            //  1st stroke.
+        } else if (this.phase >= 3 * Math.PI) {
+            //  4th stroke.
+        } else if (!this.plugFired) {
+            //  2nd stroke.
+        } else if (this.plugFired) {
+            //  3rd stroke.
+        }
+    }
 };
+
+function colourFunction(T, P) {
+    
+}

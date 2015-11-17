@@ -34,7 +34,7 @@ function debugSetAngle(evt, ui) {
     
     // console.log("a = %f, a * PI = %f", a , a * Math.PI);
     timing.setAngle(a * Math.PI);
-    $("#angle-output").val(a.toFixed(2));
+    $("#debug-angle-output").val(a.toFixed(2));
 }
 
 
@@ -48,7 +48,22 @@ function debugSetTemperature(evt, ui) {
     }
     
     combustion.setTemp(t);
+    $("#debug-temperature-output").val(t);
 }
+
+
+function debugSetPressure(evt, ui) {
+    var p;
+    
+    if (typeof evt === "number") {
+        p = evt;
+    } else {
+        p = ui.value;
+    }
+    
+    combustion.setPres(p);
+    $("#debug-pressure-output").val(p);
+};
 
 
 function hideControls(evt) {

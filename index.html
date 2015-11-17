@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="jquery-ui/jquery-ui.structure.min.css" />
     <link rel="stylesheet" href="jquery-ui/jquery-ui.theme.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="icon.png" />
   </head>
   <body onload="loaded()">
     <div id="view-container">
@@ -43,11 +44,16 @@
         <table class="control-container">
           <tbody>
             <tr>
-              <td><div id="angle-slider"></div></td>
-              <td><input type="number" id="angle-output" size="5" onchange="/*setAngle()*/" />π</td>
+              <td><div id="debug-angle-slider"></div></td>
+              <td><input type="number" id="debug-angle-output" size="5" onchange="/*setAngle()*/" />π</td>
             </tr>
             <tr>
-              <td><div id="temperature-slider"></div></td>
+              <td><div id="debug-temperature-slider"></div></td>
+              <td><input type="number" id="debug-temperature-output" disabled="disabled" />%</td>
+            </tr>
+            <tr>
+              <td><div id="debug-pressure-slider"></div></td>
+              <td><input type="number" id="debug-pressure-output" disabled="disabled" />%</td>
             </tr>
           </tbody>
         </table>
